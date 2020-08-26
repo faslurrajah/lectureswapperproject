@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lectureswapperproject/login.dart';
+import 'package:lectureswapperproject/signup.dart';
 
 void main() {
   runApp(MyApp());
@@ -98,7 +100,30 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+                'Both Login and SignUp pages are same. Edit with your own style.'),
+            Text(
+                'Both Pages Theme should be same. So dont mix the color.'),
+            Text(
+                'Dont edit bezierContainer,customClipper files.'),
+            RaisedButton(
+                child:Text(
+                  'SignUp Page'),
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUpPage()),
+                  );
+            },
+            ),
+            RaisedButton(
+              child:Text(
+                  'Login Page'),
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
             ),
             Text(
               '$_counter',
