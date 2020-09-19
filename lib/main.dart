@@ -157,14 +157,15 @@ class _WelcomePageState extends State<WelcomePage> {
                   colors: [Colors.white,Colors.white]
               )),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             //mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Image(
-                image: NetworkImage('https://tlgur.com/d/g05exDE4'),
-                //height: 500,
-                //width: 600,
-              ),
+              // Image(
+              //   image: NetworkImage('https://tlgur.com/d/g05exDE4'),
+              //   //height: 500,
+              //   //width: 600,
+              // ),
               SizedBox(
                 height: 20,
               ),
