@@ -1,0 +1,187 @@
+{
+  "Mon" : {
+    "slot1" : {
+      "id" : "EC6060",
+      "name" : "Software Engineering",
+      "nameL" : "Yaalini"
+    },
+    "slot2" : {
+      "id" : "EC6020",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot3" : {
+      "id" : "EC6030",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot4" : {
+      "id" : "EC6040",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot5" : {
+      "id" : "EC6050",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot6" : {
+      "id" : "EC6060",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot7" : {
+      "id" : "EC6070",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    }
+  },
+  "Tue" : {
+    "slot1" : {
+      "id" : "EC6060",
+      "name" : "Software Engineering",
+      "nameL" : "Yaalini"
+    },
+    "slot2" : {
+      "id" : "EC6020",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot3" : {
+      "id" : "EC6030",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot4" : {
+      "id" : "EC6040",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot5" : {
+      "id" : "EC6050",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot6" : {
+      "id" : "EC6060",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot7" : {
+      "id" : "EC6070",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    }
+  },
+  "Wed" : {
+    "slot1" : {
+      "id" : "EC6060",
+      "name" : "Software Engineering",
+      "nameL" : "Yaalini"
+    },
+    "slot2" : {
+      "id" : "EC6020",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot3" : {
+      "id" : "EC6030",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot4" : {
+      "id" : "EC6040",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot5" : {
+      "id" : "EC6050",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot6" : {
+      "id" : "EC6060",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot7" : {
+      "id" : "EC6070",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    }
+  },
+  "Thur" : {
+    "slot1" : {
+      "id" : "EC6060",
+      "name" : "Software Engineering",
+      "nameL" : "Yaalini"
+    },
+    "slot2" : {
+      "id" : "EC6020",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot3" : {
+      "id" : "EC6030",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot4" : {
+      "id" : "EC6040",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot5" : {
+      "id" : "EC6050",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot6" : {
+      "id" : "EC6060",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot7" : {
+      "id" : "EC6070",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    }
+  },
+  "Fri" : {
+    "slot1" : {
+      "id" : "EC6060",
+      "name" : "Software Engineering",
+      "nameL" : "Yaalini"
+    },
+    "slot2" : {
+      "id" : "EC6020",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot3" : {
+      "id" : "EC6030",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot4" : {
+      "id" : "EC6040",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot5" : {
+      "id" : "EC6050",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot6" : {
+      "id" : "EC6060",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    },
+    "slot7" : {
+      "id" : "EC6070",
+      "name" : "Embedded System Design",
+      "nameL" : "mathuranthaga"
+    }
+  }
+}
