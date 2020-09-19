@@ -1,188 +1,253 @@
 {
-  "Mon" : {
-    "slot1" : {
-      "id" : "EC6060",
-      "name" : "Software Engineering",
-      "nameL" : "Yaalini",
-      "type" : "Lec"
+  "Mon": {
+    "slot1": {
+      "id": "EC6020",
+      "name": "Embedded Systems Design",
+      "nameL": "Ms.S.Mathuranthagaa",
+      "type": "Lec"
     },
-    "slot2" : {
-      "id" : "EC6020",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot2": {
+      "id": "EC6110",
+      "name": "Operating Systems",
+      "nameL": "Ms.J.Pradeepa",
+      "type": "Lec"
     },
-    "slot3" : {
-      "id" : "EC6030",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot3": {
+      "id": "EC9570",
+      "name": "Digital Image Processing",
+      "nameL": "R.Muralitharan",
+      "type": "Lec"
     },
-    "slot4" : {
-      "id" : "EC6040",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot4": {
+      "id": "EC9590",
+      "name": "Advanced application Design",
+      "nameL": "Ms.U.Thanuja",
+      "type": "Lec"
     },
-    "slot5" : {
-      "id" : "EC6050",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot5": {
+      "id": "",
+      "name": "Complementary Studies",
+      "nameL": "",
+      "type": "Lec"
     },
-    "slot6" : {
-      "id" : "EC6060",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot6": {
+      "id": "",
+      "name": "Complementary Studies",
+      "nameL": "",
+      "type": "Lec"
     },
-    "slot7" : {
-      "id" : "EC6070",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot7": {
+      "id": "",
+      "name": "",
+      "nameL": "",
+      "type": "FREE"
+    },
+    "slot8": {
+      "id": "",
+      "name": "",
+      "nameL": "",
+      "type": "FREE"
     }
   },
-  "Tue" : {
-    "slot1" : {
-      "id" : "EC6060",
-      "name" : "Software Engineering",
-      "nameL" : "Yaalini"
+  "Tue": {
+    "slot1": {
+      "id": "",
+      "name": "",
+      "nameL": "",
+      "type": "FREE"
     },
-    "slot2" : {
-      "id" : "EC6020",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot2": {
+      "id": "",
+      "name": "",
+      "nameL": "",
+      "type": "FREE"
     },
-    "slot3" : {
-      "id" : "EC6030",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot3": {
+      "id": "EC9640",
+      "name": "Artificial Intelligence",
+      "nameL": "Ms.B.Yaalini",
+      "type": "Lec"
     },
-    "slot4" : {
-      "id" : "EC6040",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot4": {
+      "id": "EC6090",
+      "name": "Robotics and Automation",
+      "nameL": "Mr.S.Sangar",
+      "type": "Lec"
     },
-    "slot5" : {
-      "id" : "EC6050",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot5": {
+      "id": "",
+      "name": "Laboratory",
+      "nameL": "",
+      "type": "Lab"
     },
-    "slot6" : {
-      "id" : "EC6060",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot6": {
+      "id": "",
+      "name": "Laboratory",
+      "nameL": "",
+      "type": "Lab"
     },
-    "slot7" : {
-      "id" : "EC6070",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot7": {
+      "id": "",
+      "name": "Laboratory",
+      "nameL": "",
+      "type": "Lab"
+    },
+    "slot8": {
+      "id": "EC9630",
+      "name": "Machine Learning",
+      "nameL": "Ms.J.Pradeepa",
+      "type": "Lec"
     }
   },
-  "Wed" : {
-    "slot1" : {
-      "id" : "EC6060",
-      "name" : "Software Engineering",
-      "nameL" : "Yaalini"
+  "Wed": {
+    "slot1": {
+      "id": "EC6060",
+      "name": "Software Engineering",
+      "nameL": "Yaalini",
+      "type": "Lec"
     },
-    "slot2" : {
-      "id" : "EC6020",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot2": {
+      "id": "EC6110",
+      "name": "Operating Systems",
+      "nameL": "Ms.J.Pradeepa",
+      "type": "Lec"
     },
-    "slot3" : {
-      "id" : "EC6030",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot3": {
+      "id": "EC6020",
+      "name": "Embedded System Design",
+      "nameL": "mathuranthaga",
+      "type": "Lec"
     },
-    "slot4" : {
-      "id" : "EC6040",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot4": {
+      "id": "",
+      "name": "ESU",
+      "nameL": "",
+      "type": "ESU"
     },
-    "slot5" : {
-      "id" : "EC6050",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot5": {
+      "id": "",
+      "name": "Laboratory",
+      "nameL": "",
+      "type": "Lab"
     },
-    "slot6" : {
-      "id" : "EC6060",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot6": {
+      "id": "",
+      "name": "Laboratory",
+      "nameL": "",
+      "type": "Lab"
     },
-    "slot7" : {
-      "id" : "EC6070",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
-    }
-  },
-  "Thur" : {
-    "slot1" : {
-      "id" : "EC6060",
-      "name" : "Software Engineering",
-      "nameL" : "Yaalini"
+    "slot7": {
+      "id": "",
+      "name": "Laboratory",
+      "nameL": "",
+      "type": "Lab"
     },
-    "slot2" : {
-      "id" : "EC6020",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "slot8": {
+      "id": "",
+      "name": "",
+      "nameL": "",
+      "type": "FREE"
     },
-    "slot3" : {
-      "id" : "EC6030",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "Thur": {
+      "slot1": {
+        "id": "",
+        "name": "",
+        "nameL": "",
+        "type": "FREE"
+      },
+      "slot2": {
+        "id": "EC9570",
+        "name": "Digital Image Processing",
+        "nameL": "Mr.R.Muralitharan",
+        "type": "Lec"
+      },
+      "slot3": {
+        "id": "EC6640",
+        "name": "Artificial Intelligence",
+        "nameL": "Ms.B.Yaalini",
+        "type": "Lec"
+      },
+      "slot4": {
+        "id": "EC6590",
+        "name": "Network Application Design",
+        "nameL": "Ms.U.Thanuja",
+        "type": "Lec"
+      },
+      "slot5": {
+        "id": "",
+        "name": "Complementary Studies",
+        "nameL": "",
+        "type": "Lec"
+      },
+      "slot6": {
+        "id": "",
+        "name": "Complementary Studies",
+        "nameL": "",
+        "type": "Lec"
+      },
+      "slot7": {
+        "id": "",
+        "name": "",
+        "nameL": "",
+        "type": "FREE"
+      },
+      "slot8": {
+        "id": "",
+        "name": "",
+        "nameL": "",
+        "type": "FREE"
+      }
     },
-    "slot4" : {
-      "id" : "EC6040",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
-    },
-    "slot5" : {
-      "id" : "EC6050",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
-    },
-    "slot6" : {
-      "id" : "EC6060",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
-    },
-    "slot7" : {
-      "id" : "EC6070",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
-    }
-  },
-  "Fri" : {
-    "slot1" : {
-      "id" : "EC6060",
-      "name" : "Software Engineering",
-      "nameL" : "Yaalini"
-    },
-    "slot2" : {
-      "id" : "EC6020",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
-    },
-    "slot3" : {
-      "id" : "EC6030",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
-    },
-    "slot4" : {
-      "id" : "EC6040",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
-    },
-    "slot5" : {
-      "id" : "EC6050",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
-    },
-    "slot6" : {
-      "id" : "EC6060",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
-    },
-    "slot7" : {
-      "id" : "EC6070",
-      "name" : "Embedded System Design",
-      "nameL" : "mathuranthaga"
+    "Fri": {
+      "slot1": {
+        "id": "EC6090",
+        "name": "Robotics and Automation",
+        "nameL": "Mr.S.Sangar",
+        "type": "Lec"
+      },
+      "slot2": {
+        "id": "EC9630",
+        "name": "Machine Learning",
+        "nameL": "Ms.J.Pradeepa",
+        "type": "Lec"
+      },
+      "slot3": {
+        "id": "EC6060",
+        "name": "Software Engineering",
+        "nameL": "Ms.B.Yaalini",
+        "type": "Lec"
+      },
+      "slot4": {
+        "id": "",
+        "name": "General Tutor Session",
+        "nameL": "",
+        "type": "GTS"
+      },
+      "slot5": {
+        "id": "",
+        "name": "Laboratory",
+        "nameL": "",
+        "type": "Lab"
+
+      },
+      "slot6": {
+        "id": "",
+        "name": "Laboratory",
+        "nameL": "",
+        "type": "Lab"
+      },
+      "slot7": {
+        "id": "",
+        "name": "Laboratory",
+        "nameL": "",
+        "type": "Lab"
+      },
+      "slot8": {
+        "id": "",
+        "name": "",
+        "nameL": "",
+        "type": "FREE"
+      }
     }
   }
 }
