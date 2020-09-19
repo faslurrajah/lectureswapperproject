@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:firebase_database/firebase_database.dart';
+
+import 'CustomTabView.dart';
 
 void main (){
   runApp(MaterialApp(home: WeekView(),));
@@ -50,6 +53,8 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
     }
   };
   Map coursesInDay = Map();
+  bool isSwapSelected=false;
+  Map selectedSlots = {};
 
   TabController _tabController;
   List days=[
@@ -62,19 +67,22 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
   @override
   void initState() {
     ref = FirebaseDatabase.instance.reference();
-    ref.child('basicTimeTable').once().then((value) {
+    ref.once().then((value) {
+      Map val= value.value;
+      Map swaps=val['changes']['swaps'];
+
+      //print(swaps);
+
       setState(() {
-        coursesInDay = value.value;
-        for(int i=0;i<days.length;i=i+2){
-          setState(() {
-            singleTabData.add(
-                singleTabView(i)
-            );
-          });
-        }
-        _tabController = TabController(length: 4, vsync: this);
+        coursesInDay = val['basicTimeTable'];
+        swaps.forEach((key, value) {
+          Map swapData=value;
+
+          print(coursesInDay['${dayData[DateTime(2020,9,swapData['Fday']).weekday.toString()]}']);
+        });
+
       });
-      print(value.value);
+      //print(value.value);
     });
     //print(dayData[date.weekday.toString()]);
 
@@ -85,13 +93,13 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
   Widget daySlot(int index){
     return Column(
       children: [
-        slot(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot1']),
-        slot(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot2']),
-        slot(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot3']),
-        slot(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot4']),
-        slot(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot5']),
-        slot1(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot6']),
-        slot1(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot7']),
+        slot(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot1'],index),
+        slot(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot2'],index),
+        slot(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot3'],index),
+        slot(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot4'],index),
+        slot(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot5'],index),
+        //slot1(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot6']),
+        //slot1(coursesInDay[dayData[DateTime(2020,9,int.parse(days[index])).weekday.toString()]]['slot7']),
         // slot1(tempDaySub['slot8']),
         // slot(tempDaySub['slot9']),
         // slot(tempDaySub['slot10']),
@@ -100,22 +108,72 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
       ],
     );
   }
-  Widget slot(Map slotData){
-    return FlatButton(
-      onPressed: (){
+  Widget slot(Map slotData,int index){
+    return  FlatButton(
+       onPressed: !isSwapSelected ? (){
+        showSlotAlert(slotData);
+      }:(){
+         setState(() {
+           selectedSlots['select']=slotData['id'];
+           selectedSlots['selectDay']=days[index];
+           print(selectedSlots);
+         });
+       },
+      onLongPress: (){
+        !isSwapSelected ? showDialog(
+            context: context,
+            builder: (BuildContext context) => CupertinoAlertDialog(
+              title: new Text("Select an Action"),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  isDefaultAction: true,
+                  child: CupertinoButton(
+                    onPressed: (){
+                        setState(() {
+                          selectedSlots['own'] = slotData['id'];
+                          selectedSlots['ownDay'] = days[index];
 
+                          print(selectedSlots);
+                          isSwapSelected = true;
+                        });
+                        Navigator.pop(context);
+                    },
+                      child: Text("Swap")),
+                ),
+                CupertinoDialogAction(
+                  child: CupertinoButton(
+                    onPressed: (){
+
+                    },
+                      child: Text("Empty")),
+                )
+              ],
+            )
+        ):null;
       },
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.blue,
-            border: Border.all(
-              width: 1, //                   <--- border width here
-            )),
-        height: 80,
-        width: 150,
-        child: Center(
-          child: Text(slotData['id']),
-        ),
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                color: !isSwapSelected && selectedSlots.isEmpty ? Colors.blue: selectedSlots['own']==slotData['id'] ? Colors.green: selectedSlots['select']==slotData['id'] && selectedSlots['selectDay']==days[index] ? Colors.red:Colors.blueGrey,
+                border: Border.all(
+                  width: 1, //                   <--- border width here
+                ),
+            ),
+            height: 80,
+            width: 150,
+            child: Center(
+              child: Text(slotData['id']),
+            ),
+          ),
+          // isSwapSelected ? Positioned(
+          //   width: 20,
+          //     height: 20,
+          //     child: Checkbox(value: true, onChanged: null),
+          //   right: 2,
+          //   top: 2,
+          // ):SizedBox(),
+        ],
       ),
     );
   }
@@ -152,14 +210,15 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
     );
   }
   Widget singleTabView(int index){
-    int temp = index+1;
+    int first = index*2;
+    int second = first+1;
     return SingleChildScrollView(
 
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Expanded(child: dayModel(index)),
-          temp<days.length ? Expanded(child: dayModel(temp)):SizedBox(),
+          second<days.length && first<days.length ?Expanded(child: dayModel(first)):SizedBox(),
+          second<days.length && first<days.length ? Expanded(child: dayModel(second)):SizedBox(),
         ],
       ),
     );
@@ -188,6 +247,256 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
       ],
     );
   }
+  confirmSwapAlert() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: new Text("Request Swapping"),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: CupertinoButton(
+                  onPressed: (){
+                    setState(() {
+                      //isSwapSelected = true;
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Text("No")),
+            ),
+            CupertinoDialogAction(
+              child: CupertinoButton(
+                  onPressed: (){
+
+                  },
+                  child: Text("Yes")),
+            )
+          ],
+        )
+    );
+
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        home: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Time Table'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      isSwapSelected ? FlatButton(
+                          onPressed: (){
+                            setState(() {
+                              isSwapSelected = false;
+                            });
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.green,
+                              size: 30,
+                            ),
+                          )): SizedBox(),
+                      isSwapSelected ? FlatButton(
+                          onPressed: (){
+                            setState(() {
+                              isSwapSelected = false;
+                            });
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.red,
+                              size: 30,
+                            ),
+                          )): SizedBox()
+                    ],
+                  )
+
+                ],
+              ),
+
+            ),
+            body: Row(
+              children: [
+                Container(
+                  width: 80,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20,),
+                      Container(
+                          width: 150,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.white12,
+                            border: Border.all(
+                                width: 3.0
+                            ),
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(5.0) //                 <--- border radius here
+                            ),
+                          ),
+                          child: Center(child: Text('Time',style: TextStyle(fontSize: 20),))),
+                      SizedBox(height: 20,),
+                      timeSlot('8.00-9.00'),
+                      timeSlot('9.00-9.55'),
+                      timeSlot('10.10-11.05'),
+
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: CustomTabView(
+                    initPosition: 0,
+                    itemCount: 4,
+                    //tabBuilder: (context, index) => Tab(text: days[index]),
+                    pageBuilder: (context, index) => singleTabView(index),
+                    onPositionChange: (index){
+                      //print('current position: $index');
+                      //initPosition = index;
+                    },
+                    //onScroll: (position) => print('$position'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+  showSlotAlert(Map slotData) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: new Text(slotData['id']),
+          content: Column(
+            children: [
+              SizedBox(height: 10,),
+              Text(slotData['name']),
+              Text(slotData['nameL'])
+            ],
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: CupertinoButton(
+                  onPressed: (){
+                    setState(() {
+                      //isSwapSelected = true;
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Text("Exit",style: TextStyle(color: Colors.red),)),
+            ),
+          ],
+        )
+    );
+
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        home: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Time Table'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      isSwapSelected ? FlatButton(
+                          onPressed: (){
+                            setState(() {
+                              isSwapSelected = false;
+                            });
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.green,
+                              size: 30,
+                            ),
+                          )): SizedBox(),
+                      isSwapSelected ? FlatButton(
+                          onPressed: (){
+                            setState(() {
+                              isSwapSelected = false;
+                            });
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.red,
+                              size: 30,
+                            ),
+                          )): SizedBox()
+                    ],
+                  )
+
+                ],
+              ),
+
+            ),
+            body: Row(
+              children: [
+                Container(
+                  width: 80,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20,),
+                      Container(
+                          width: 150,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.white12,
+                            border: Border.all(
+                                width: 3.0
+                            ),
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(5.0) //                 <--- border radius here
+                            ),
+                          ),
+                          child: Center(child: Text('Time',style: TextStyle(fontSize: 20),))),
+                      SizedBox(height: 20,),
+                      timeSlot('8.00-9.00'),
+                      timeSlot('9.00-9.55'),
+                      timeSlot('10.10-11.05'),
+
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: CustomTabView(
+                    initPosition: 0,
+                    itemCount: 4,
+                    //tabBuilder: (context, index) => Tab(text: days[index]),
+                    pageBuilder: (context, index) => singleTabView(index),
+                    onPositionChange: (index){
+                      //print('current position: $index');
+                      //initPosition = index;
+                    },
+                    //onScroll: (position) => print('$position'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -195,7 +504,50 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
       home: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Time Table'),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Time Table'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    isSwapSelected ? FlatButton(
+                        onPressed: (){
+                          confirmSwapAlert();
+                          setState(() {
+                            //isSwapSelected = false;
+                          });
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.green,
+                            size: 30,
+                          ),
+                        )): SizedBox(),
+                    isSwapSelected ? FlatButton(
+                        onPressed: (){
+                          setState(() {
+                            selectedSlots.clear();
+                            isSwapSelected = false;
+                          });
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.red,
+                            size: 30,
+                          ),
+                        )): SizedBox()
+                  ],
+                )
+
+              ],
+            ),
+
           ),
           body: Row(
             children: [
@@ -226,14 +578,16 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
                 ),
               ),
               Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: singleTabData,
-                  // children: [
-                  //   singleTabView(),
-                  //   singleTabView(),
-                  //   singleTabView(),
-                  // ],
+                child: CustomTabView(
+                  //initPosition: 0,
+                  itemCount: 4,
+                  //tabBuilder: (context, index) => Tab(text: days[index]),
+                  pageBuilder: (context, index) => singleTabView(index),
+                  onPositionChange: (index){
+                    //print('current position: $index');
+                    //initPosition = index;
+                  },
+                  //onScroll: (position) => print('$position'),
                 ),
               ),
             ],

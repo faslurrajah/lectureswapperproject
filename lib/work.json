@@ -3,7 +3,8 @@
     "slot1" : {
       "id" : "EC6060",
       "name" : "Software Engineering",
-      "nameL" : "Yaalini"
+      "nameL" : "Yaalini",
+      "type" : "Lec"
     },
     "slot2" : {
       "id" : "EC6020",
