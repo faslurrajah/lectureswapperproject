@@ -147,107 +147,107 @@
       "name": "",
       "nameL": "",
       "type": "FREE"
+    }
+  },
+  "Thur": {
+    "slot1": {
+      "id": "",
+      "name": "",
+      "nameL": "",
+      "type": "FREE"
     },
-    "Thur": {
-      "slot1": {
-        "id": "",
-        "name": "",
-        "nameL": "",
-        "type": "FREE"
-      },
-      "slot2": {
-        "id": "EC9570",
-        "name": "Digital Image Processing",
-        "nameL": "Mr.R.Muralitharan",
-        "type": "Lec"
-      },
-      "slot3": {
-        "id": "EC6640",
-        "name": "Artificial Intelligence",
-        "nameL": "Ms.B.Yaalini",
-        "type": "Lec"
-      },
-      "slot4": {
-        "id": "EC6590",
-        "name": "Network Application Design",
-        "nameL": "Ms.U.Thanuja",
-        "type": "Lec"
-      },
-      "slot5": {
-        "id": "",
-        "name": "Complementary Studies",
-        "nameL": "",
-        "type": "Lec"
-      },
-      "slot6": {
-        "id": "",
-        "name": "Complementary Studies",
-        "nameL": "",
-        "type": "Lec"
-      },
-      "slot7": {
-        "id": "",
-        "name": "",
-        "nameL": "",
-        "type": "FREE"
-      },
-      "slot8": {
-        "id": "",
-        "name": "",
-        "nameL": "",
-        "type": "FREE"
-      }
+    "slot2": {
+      "id": "EC9570",
+      "name": "Digital Image Processing",
+      "nameL": "Mr.R.Muralitharan",
+      "type": "Lec"
     },
-    "Fri": {
-      "slot1": {
-        "id": "EC6090",
-        "name": "Robotics and Automation",
-        "nameL": "Mr.S.Sangar",
-        "type": "Lec"
-      },
-      "slot2": {
-        "id": "EC9630",
-        "name": "Machine Learning",
-        "nameL": "Ms.J.Pradeepa",
-        "type": "Lec"
-      },
-      "slot3": {
-        "id": "EC6060",
-        "name": "Software Engineering",
-        "nameL": "Ms.B.Yaalini",
-        "type": "Lec"
-      },
-      "slot4": {
-        "id": "",
-        "name": "General Tutor Session",
-        "nameL": "",
-        "type": "GTS"
-      },
-      "slot5": {
-        "id": "",
-        "name": "Laboratory",
-        "nameL": "",
-        "type": "Lab"
+    "slot3": {
+      "id": "EC6640",
+      "name": "Artificial Intelligence",
+      "nameL": "Ms.B.Yaalini",
+      "type": "Lec"
+    },
+    "slot4": {
+      "id": "EC6590",
+      "name": "Network Application Design",
+      "nameL": "Ms.U.Thanuja",
+      "type": "Lec"
+    },
+    "slot5": {
+      "id": "",
+      "name": "Complementary Studies",
+      "nameL": "",
+      "type": "Lec"
+    },
+    "slot6": {
+      "id": "",
+      "name": "Complementary Studies",
+      "nameL": "",
+      "type": "Lec"
+    },
+    "slot7": {
+      "id": "",
+      "name": "",
+      "nameL": "",
+      "type": "FREE"
+    },
+    "slot8": {
+      "id": "",
+      "name": "",
+      "nameL": "",
+      "type": "FREE"
+    }
+  },
+  "Fri": {
+    "slot1": {
+      "id": "EC6090",
+      "name": "Robotics and Automation",
+      "nameL": "Mr.S.Sangar",
+      "type": "Lec"
+    },
+    "slot2": {
+      "id": "EC9630",
+      "name": "Machine Learning",
+      "nameL": "Ms.J.Pradeepa",
+      "type": "Lec"
+    },
+    "slot3": {
+      "id": "EC6060",
+      "name": "Software Engineering",
+      "nameL": "Ms.B.Yaalini",
+      "type": "Lec"
+    },
+    "slot4": {
+      "id": "",
+      "name": "General Tutor Session",
+      "nameL": "",
+      "type": "GTS"
+    },
+    "slot5": {
+      "id": "",
+      "name": "Laboratory",
+      "nameL": "",
+      "type": "Lab"
 
-      },
-      "slot6": {
-        "id": "",
-        "name": "Laboratory",
-        "nameL": "",
-        "type": "Lab"
-      },
-      "slot7": {
-        "id": "",
-        "name": "Laboratory",
-        "nameL": "",
-        "type": "Lab"
-      },
-      "slot8": {
-        "id": "",
-        "name": "",
-        "nameL": "",
-        "type": "FREE"
-      }
+    },
+    "slot6": {
+      "id": "",
+      "name": "Laboratory",
+      "nameL": "",
+      "type": "Lab"
+    },
+    "slot7": {
+      "id": "",
+      "name": "Laboratory",
+      "nameL": "",
+      "type": "Lab"
+    },
+    "slot8": {
+      "id": "",
+      "name": "",
+      "nameL": "",
+      "type": "FREE"
     }
   }
 }

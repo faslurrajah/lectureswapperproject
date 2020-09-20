@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lectureswapperproject/dashboard.dart';
 import 'bezierContainer.dart';
 
 class LoginPage extends StatefulWidget {
@@ -121,7 +122,10 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _submitButton() {
     return FlatButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Dashboard()));
+      },
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(vertical: 15),

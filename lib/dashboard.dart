@@ -1,34 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lectureswapperproject/login.dart';
-import 'swapReqView.dart';
+import 'package:lectureswapperproject/swapReqView.dart';
+import 'package:lectureswapperproject/table_views/light_color.dart';
+import 'package:lectureswapperproject/table_views/week_view.dart';
 
-
+import 'login.dart';
 import 'signup.dart';
 
-void main() {
-  runApp(MaterialApp(home: WelcomePage(),));
-}
 
 
-class WelcomePage extends StatefulWidget {
-  WelcomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class Dashboard extends StatefulWidget {
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _DashboardState createState() => _DashboardState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
-  Widget _login() {
+class _DashboardState extends State<Dashboard> {
+  Widget _requests() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => LoginPage()));
+              context, MaterialPageRoute(builder: (context) => SwapReqView()));
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -45,7 +39,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ],
               color: Colors.white),
           child: Text(
-            'Login',
+            'Requests',
             style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
           ),
         ),
@@ -53,13 +47,13 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  Widget _signUpButton() {
+  Widget _timetable() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SignUpPage()));   //Signup page replaced
+              context, MaterialPageRoute(builder: (context) => WeekView()));   //Signup page replaced
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -76,8 +70,8 @@ class _WelcomePageState extends State<WelcomePage> {
               ],
               color: Colors.white),
           child: Text(
-            'Register now',
-            style: TextStyle(fontSize: 20, color: Colors.black),
+            'Time Table',
+            style: TextStyle(fontSize: 20,color: Color(0xfff7892b)),
           ),
         ),
       ),
@@ -138,53 +132,61 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          //padding: EdgeInsets.symmetric(horizontal: 20),
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.shade200,
-                    offset: Offset(2, 4),
-                    blurRadius: 5,
-                    spreadRadius: 2
-                )
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            //padding: EdgeInsets.symmetric(horizontal: 20),
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.grey.shade200,
+                      offset: Offset(2, 4),
+                      blurRadius: 5,
+                      spreadRadius: 2
+                  )
+                ],
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.white,Colors.white]
+                )),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                SizedBox(height: 40,),
+                Image(
+                  image: NetworkImage('https://tlgur.com/d/81exL6W8'),
+                  //height: 500,
+                  //width: 600,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                //_title(),
+                SizedBox(
+                  height: 40,
+                ),
+                _requests(),
+                SizedBox(
+                  height: 20,
+                ),
+                _timetable(),
+                SizedBox(
+                  height: 5,
+                ),
+                Image(
+                  image: NetworkImage('https://tlgur.com/d/GZDEjba4'),
+                  height: 150,
+                  width: 150,
+                ),
+                //_label()
               ],
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.white,Colors.white]
-              )),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            //mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Image(
-                image: NetworkImage('https://tlgur.com/d/g05exDE4'),
-                //height: 500,
-                //width: 600,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              _title(),
-              SizedBox(
-                height: 40,
-              ),
-              _login(),
-              SizedBox(
-                height: 20,
-              ),
-              _signUpButton(),
-              SizedBox(
-                height: 5,
-              ),
-              //_label()
-            ],
+            ),
           ),
         ),
       ),
