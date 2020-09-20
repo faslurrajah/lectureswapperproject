@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "464112267249",
+    "firebase_url": "https://lectureswapperse.firebaseio.com",
+    "project_id": "lectureswapperse",
+    "storage_bucket": "lectureswapperse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464112267249:android:2dfe5e42a9c813762f9e50",
+        "android_client_info": {
+          "package_name": "com.lectureswapperproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464112267249-ag19ui8acj2g2vrg9t9d1ojpuggk2cl3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3ACOwENIltVVbJ7hqOwEckPr47soq2jM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464112267249-ag19ui8acj2g2vrg9t9d1ojpuggk2cl3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
