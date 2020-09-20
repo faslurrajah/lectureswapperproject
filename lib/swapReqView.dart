@@ -150,8 +150,8 @@ class _SwapReqViewState extends State<SwapReqView> {
     return Container(
       color: Color(0xFF8D8E98),
       child: Column(       //Sender Column
-//        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                      mainAxisSize: MainAxisSize.min,
 
                       children: [
                         Row(        //ID row
