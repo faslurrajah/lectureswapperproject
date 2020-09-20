@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lectureswapperproject/login.dart';
+import 'swapReqView.dart';
 
 
 import 'signup.dart';
@@ -58,7 +59,7 @@ class _WelcomePageState extends State<WelcomePage> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SignUpPage()));
+              context, MaterialPageRoute(builder: (context) => SwapReqView()));   //Signup page replaced
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
