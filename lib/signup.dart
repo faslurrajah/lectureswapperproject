@@ -340,32 +340,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               semesterSel=value;
                             });
                           },
-//                            onChanged: (value) {
-//                              if(value=='siam')  {
-//                                cNameController.text = 'Siam City Cement (Lanka) Limited';
-//                                cAddressController.text = 'No 413,R. A. De Mel Mawatha, Colombo 03\nColombo 00300,\n117800800';
-//                                setState(() {
-//                                  customerName = 'Siam City Cement (Lanka) Limited';
-//                                  customerAddress = 'No 413,R. A. De Mel Mawatha, Colombo 03\nColombo 00300,\n117800800';
-//                                });
-//                              }
-//                              else if(value=='eco') {
-//                                cNameController.text = 'INSEE Ecocycle Lanka (Private) Limited';
-//                                cAddressController.text = 'No 413,R A De Mel Mawatha,\nColombo 00300,\n117800800';
-//                                setState(() {
-//                                  customerName = 'INSEE Ecocycle Lanka (Private) Limited';
-//                                  customerAddress = 'No 413,R A De Mel Mawatha,\nColombo 00300,\n117800800';
-//                                });
-//                              }
-//                              else {
-//                                cNameController.clear();
-//                                cAddressController.clear();
-//                              }
-//
-//                              setState(() {
-//                                customerDefault= value;
-//                              });
-//                            },
+
                         ),
                       ],
 
