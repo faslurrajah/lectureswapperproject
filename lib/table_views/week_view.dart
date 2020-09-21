@@ -117,7 +117,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
       Map val= value.value;
       Map swaps={};
 
-      if(val['changes'].containsKey('swaps')) swaps=val['changes']['swaps'];
+      if(val.containsKey('changes')) if(val['changes'].containsKey('swaps')) swaps=val['changes']['swaps'];
       setState(() {
         coursesInDay = val['basicTimeTable'];
         //print(coursesInDay);
@@ -309,7 +309,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
       },
       child: Container(
         decoration: BoxDecoration(
-            color: !isSwapSelected && selectedSlots.isEmpty ?selectColor(slotNumber, slotData): selectedSlots['ownSlotNum']==slotNumber && selectedSlots['ownDay']==formattedDate[index] ? Colors.green: selectedSlots['selectSlotNum']==slotNumber && selectedSlots['selectDay']==formattedDate[index] ? Colors.red:Colors.blueGrey,
+            color: !isSwapSelected && selectedSlots.isEmpty ?selectColor(slotNumber, slotData): selectedSlots['ownSlotNum']==slotNumber && selectedSlots['ownDay']==formattedDate[index] ? Colors.green: selectedSlots['selectSlotNum']==slotNumber && selectedSlots['selectDay']==formattedDate[index] ? Color.fromRGBO(218,165,32,1):Colors.blueGrey,
             border: Border.all(
               width: 0.5, //                   <--- border width here
             ),
@@ -325,12 +325,12 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
   Color selectColor(slotNumber,slotData) {
     Color color ;
     Map colors = {
-      'Lec' : Colors.blueAccent,
-      'Lab' : Colors.deepOrange,
-      'ESU' : Colors.pink,
-      'FREE' : Colors.brown,
-      'GTS' : Colors.deepPurple,
-      'S' : Colors.yellowAccent
+      'Lec' : Color.fromRGBO(46, 193, 172,1),
+      'Lab' : Color.fromRGBO(157, 101, 201,1),
+      'ESU' : Color.fromRGBO(30, 95, 116,1),
+      'FREE' : Color.fromRGBO(240,255,240,1),
+      'GTS' : Color.fromRGBO(221,160,221,1),
+      'S' : Color.fromRGBO(65,105,225, 1)
     };
     //print(slotData);
     return colors[slotData['type']];
@@ -968,13 +968,13 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color.fromRGBO(247, 209, 186,1),
           appBar: AppBar(
-            backgroundColor: Colors.blueGrey,
+            backgroundColor: Color(0xfffbb448),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Time Table',style: TextStyle(fontSize: 20),),
+                Text('Time Table',style: TextStyle(fontSize: 20,color: Colors.black),),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,

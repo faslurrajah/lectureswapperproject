@@ -27,9 +27,16 @@ class _SwapReqViewState extends State<SwapReqView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SafeArea(child: Scaffold(
-        //backgroundColor: Color(0xFF1D2136),
-        appBar: AppBar(title: Text('Swap Requests'),),
+      home: SafeArea(
+          child: Scaffold(
+
+        appBar: AppBar(
+          centerTitle:true,
+            backgroundColor:Color(0xfffbb448),
+            title: Container(
+          child: Text('Swaps',style: TextStyle(fontSize: 25 ,color: Colors.black),),
+        )
+        ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
@@ -66,7 +73,7 @@ class _SwapReqViewState extends State<SwapReqView> {
                                     child: Text("From",style: TextStyle(fontWeight: FontWeight.bold)),
                                     width: MediaQuery.of(context).size.width * 0.4,
                                     height: 30.0,
-                                    color: Color(0xFF8D8E98),
+                                    color: Color(0xfffbb448),
                                     alignment: Alignment.center,
                                   )
                                 ],
@@ -79,7 +86,7 @@ class _SwapReqViewState extends State<SwapReqView> {
                                     child: Text("To",style: TextStyle(fontWeight: FontWeight.bold),),
                                     width: MediaQuery.of(context).size.width * 0.4,
                                     height: 30.0,
-                                    color: Color(0xFF8D8E98),
+                                    color: Color(0xfffbb448),
                                     alignment: Alignment.center,
                                   )
                                 ],
@@ -191,7 +198,7 @@ class _SwapReqViewState extends State<SwapReqView> {
                                     child: Text("From",style: TextStyle(fontWeight: FontWeight.bold)),
                                     width: MediaQuery.of(context).size.width * 0.4,
                                     height: 30.0,
-                                    color: Color(0xFF8D8E98),
+                                    color: Color(0xfffbb448),
                                     alignment: Alignment.center,
                                   )
                                 ],
@@ -204,7 +211,7 @@ class _SwapReqViewState extends State<SwapReqView> {
                                     child: Text("To",style: TextStyle(fontWeight: FontWeight.bold),),
                                     width: MediaQuery.of(context).size.width * 0.4,
                                     height: 30.0,
-                                    color: Color(0xFF8D8E98),
+                                    color: Color(0xfffbb448),
                                     alignment: Alignment.center,
                                   )
                                 ],
@@ -320,7 +327,7 @@ class _SwapReqViewState extends State<SwapReqView> {
                                     child: Text("From",style: TextStyle(fontWeight: FontWeight.bold)),
                                     width: MediaQuery.of(context).size.width * 0.4,
                                     height: 30.0,
-                                    color: Color(0xFF8D8E98),
+                                    color:Color(0xfffbb448),
                                     alignment: Alignment.center,
                                   )
                                 ],
@@ -333,7 +340,7 @@ class _SwapReqViewState extends State<SwapReqView> {
                                     child: Text("To",style: TextStyle(fontWeight: FontWeight.bold),),
                                     width: MediaQuery.of(context).size.width * 0.4,
                                     height: 30.0,
-                                    color: Color(0xFF8D8E98),
+                                    color: Color(0xfffbb448),
                                     alignment: Alignment.center,
                                   )
                                 ],
