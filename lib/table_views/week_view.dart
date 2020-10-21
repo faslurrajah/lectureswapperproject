@@ -10,16 +10,17 @@ import 'const.dart';
 import 'customDesign.dart';
 import 'light_color.dart';
 
-void main (){
-  runApp(MaterialApp(home: WeekView(),));
-}
 class WeekView extends StatefulWidget {
+  Map data;
+  WeekView(this.data);
 
   @override
-  _WeekViewState createState() => _WeekViewState();
+  _WeekViewState createState() => _WeekViewState(data);
 }
 
 class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin{
+  Map data;
+  _WeekViewState(this.data);
   Map tempDaySub= {
     "slot1" : {
       "id" : "EC6060",
@@ -79,7 +80,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
   @override
   void initState() {
     generateDates();
-    fetchData();
+
     //print(dayData[date.weekday.toString()]);
 
     // TODO: implement initState
@@ -110,6 +111,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
     for(int i=0;i<formattedDate.length;i++){
       //print(formattedDate[i]);
     }
+    fetchData();
   }
   fetchData(){
     ref = FirebaseDatabase.instance.reference();
@@ -117,9 +119,11 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
       Map val= value.value;
       Map swaps={};
 
-      if(val.containsKey('changes')) if(val['changes'].containsKey('swaps')) swaps=val['changes']['swaps'];
+      if(val.containsKey('changes'))
+        if(val['changes'].containsKey('swaps')) swaps=val['changes']['swaps'];
       setState(() {
-        coursesInDay = val['basicTimeTable'];
+        coursesInDay = val['dept']['compElec']['sem6']['basicTimeTable'];
+        print(coursesInDay['Mon']['slot1']);
         //print(coursesInDay);
       });
         if (swaps.isNotEmpty) {
@@ -132,8 +136,8 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
             temp=  va['selectDay'].split("/");
             String daySelected = dayData['${DateTime(int.parse( temp[0]),int.parse( temp[1]),int.parse( temp[2])).weekday.toString()}'];
             setState(() {
-              print(va['ownSlotNum']);
-              print(coursesInDay[dayOwn][va['ownSlotNum']]);
+              //print(va['ownSlotNum']);
+              //print(coursesInDay[dayOwn][va['ownSlotNum']]);
               coursesInDay[dayOwn][va['ownSlotNum']] = {
                 'id' : va['selectCode'],
                 'name':va['selectName'],
@@ -141,9 +145,9 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
                 'type' : 'S',
 
               };
-              print(coursesInDay[dayOwn][va['ownSlotNum']]);
-              print(va['selectSlotNum']);
-              print(coursesInDay[daySelected][va['selectSlotNum']]);
+              //print(coursesInDay[dayOwn][va['ownSlotNum']]);
+              //print(va['selectSlotNum']);
+              //print(coursesInDay[daySelected][va['selectSlotNum']]);
               coursesInDay[daySelected][va['selectSlotNum']] = {
                 'id' : va['ownCode'],
                 'name':va['ownName'],
@@ -151,7 +155,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
                 'type' : 'S',
 
               };
-              print(coursesInDay[daySelected][va['selectSlotNum']]);
+              //print(coursesInDay[daySelected][va['selectSlotNum']]);
             });
             //print(dayOwn);
           }
@@ -167,7 +171,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
           //print(temp);
           var temp1 = DateTime(int.parse( temp[0]),int.parse( temp[1]),int.parse( temp[2])).weekday.toString();
            setState(() {
-             print(coursesInDay[dayData[temp1]][value['slotNum']]);
+             //print(coursesInDay[dayData[temp1]][value['slotNum']]);
              coursesInDay[dayData[temp1]][value['slotNum']] = {
                "id": "",
                "name": "",
@@ -180,13 +184,13 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
       Map takeSlots={};
       if(val['changes'].containsKey('take')) takeSlots=val['changes']['take'];
       if (takeSlots.isNotEmpty) {
-        print(takeSlots);
+        //print(takeSlots);
         takeSlots.forEach((key, value) {
           List temp=  value['day'].split("/");
           //print(temp);
           var temp1 = DateTime(int.parse( temp[0]),int.parse( temp[1]),int.parse( temp[2])).weekday.toString();
           setState(() {
-            print(coursesInDay[dayData[temp1]][value['slotNum']]);
+            //print(coursesInDay[dayData[temp1]][value['slotNum']]);
             coursesInDay[dayData[temp1]][value['slotNum']] = myLec ;
           });
         });
@@ -228,8 +232,9 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
   }
   Widget slot(Map slotData,int index,String slotNumber){
     return  FlatButton(
-       onPressed: !isSwapSelected ? (){
-        showSlotAlert(slotData);
+       onPressed: !isSwapSelected  ? (){
+        if(slotData['type']!='FREE') showSlotAlert(slotData);
+
       }:(){
          setState(() {
            selectedSlots['selectCode']=slotData['id'];
@@ -285,7 +290,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
                     },
                       child: Text("Empty")),
                 ),
-                 CupertinoDialogAction(
+                slotData['type'] =='FREE' ? CupertinoDialogAction(
                   child: CupertinoButton(
                       onPressed: (){
                         setState(() {
@@ -302,7 +307,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
 
                       },
                       child: Text("Take Slot")),
-                )
+                ):SizedBox()
               ],
             )
         ):null;
@@ -845,8 +850,9 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
           content: Column(
             children: [
               SizedBox(height: 10,),
-              Text(slotData['name']),
-              Text(slotData['nameL'])
+              Text(slotData['name'],style: TextStyle(fontSize: 18),),
+              SizedBox(height: 5,),
+              Text(slotData['nameL'],style: TextStyle(fontSize: 18),)
             ],
           ),
           actions: <Widget>[
@@ -965,8 +971,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
   ScrollPhysics scroll = ScrollPhysics();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SafeArea(
+    return SafeArea(
         child: Scaffold(
           backgroundColor: Color.fromRGBO(247, 209, 186,1),
           appBar: AppBar(
@@ -1034,7 +1039,6 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

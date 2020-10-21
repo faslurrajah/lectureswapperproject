@@ -11,11 +11,15 @@ import 'signup.dart';
 
 
 class Dashboard extends StatefulWidget {
+  Map data;
+  Dashboard(this.data);
   @override
-  _DashboardState createState() => _DashboardState();
+  _DashboardState createState() => _DashboardState(data);
 }
 
 class _DashboardState extends State<Dashboard> {
+  Map data;
+  _DashboardState(this.data);
   Widget _requests() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -53,7 +57,7 @@ class _DashboardState extends State<Dashboard> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => WeekView()));   //Signup page replaced
+              context, MaterialPageRoute(builder: (context) => WeekView(data)));   //Signup page replaced
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -134,6 +138,9 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blueAccent,
+          title: Text('Dashboard'),),
         body: SingleChildScrollView(
           child: Container(
             //padding: EdgeInsets.symmetric(horizontal: 20),
@@ -160,7 +167,7 @@ class _DashboardState extends State<Dashboard> {
               children: <Widget>[
                 SizedBox(height: 40,),
                 Image(
-                  image: NetworkImage('https://tlgur.com/d/81exL6W8'),
+                  image: AssetImage('images/dashboard.png'),
                   //height: 500,
                   //width: 600,
                 ),
@@ -180,7 +187,7 @@ class _DashboardState extends State<Dashboard> {
                   height: 5,
                 ),
                 Image(
-                  image: NetworkImage('https://tlgur.com/d/GZDEjba4'),
+                  image: AssetImage('images/bottom.png'),
                   height: 150,
                   width: 150,
                 ),

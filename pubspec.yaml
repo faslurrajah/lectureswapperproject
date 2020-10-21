@@ -31,6 +31,8 @@ dependencies:
   google_fonts: ^0.3.5
   firebase_database: ^4.0.0
   selectable_container: ^0.1.4
+  firebase_auth: ^0.18.1+2
+  firebase_core: ^0.5.0+1
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +54,8 @@ flutter:
   - images/book.png
   - images/module.png
   - images/lecturer.png
+  - images/dashboard.png
+  - images/bottom.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
