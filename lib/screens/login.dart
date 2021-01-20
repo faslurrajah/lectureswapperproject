@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lectureswapperproject/data/Data.dart';
 import 'package:lectureswapperproject/screens/dashboard.dart';
 import 'package:lectureswapperproject/screens/deptSelector.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/bezierContainer.dart';
 
@@ -45,10 +46,10 @@ class _LoginPageState extends State<LoginPage> {
        print("${user.email} signed in");
        print(user);
        if(user!=null) {
-         ref.child('userdata').child('lecturers').once().then((value) {
+         ref.child('userdata').child('lecturers').once().then((value) async {
            userList = value.value;
            var isUserDataFound=false;
-           userList.forEach((key, value) {
+           userList.forEach((key, value)  {
              print(value);
              Map userInfo=value;
              if(userInfo.containsValue(user.email)) {
@@ -59,9 +60,21 @@ class _LoginPageState extends State<LoginPage> {
                Data.dept = userInfo['dept'];
                Data.empNo = userInfo['empNo'];
                Data.isLogged = true;
-               Navigator.push(
-                   context, MaterialPageRoute(builder: (context) => DeptSelector()));
+
+               SharedPreferences.getInstance().then((value) {
+                 value.setBool('logged', true);
+                 value.setString('email', emailController.text);
+                 value.setString('name', userInfo['name']);
+                 value.setString('dept', userInfo['dept']);
+                 value.setString('empNo', userInfo['empNo']);
+                 Navigator.of(context).pop();
+                 Navigator.of(context).pop();
+                 Navigator.push(
+                     context, MaterialPageRoute(builder: (context) => DeptSelector()));
+               });
              }
+
+
              else {
                print('user data not found');
              }
@@ -70,8 +83,11 @@ class _LoginPageState extends State<LoginPage> {
 
        }
     } catch (e) {
-      print("Failed to sign in with Email & Password $e");
-      print(user);
+      Navigator.of(context).pop();
+      FirebaseAuthException ex=e;
+      error(ex.message);
+      print("Failed to sign in with Email & Password ${ex.message}");
+      print(e.runtimeType);
     }
   }
 
@@ -140,11 +156,37 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  loading(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: new Text("Checking Credentials"),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CupertinoActivityIndicator(),
+          ),
+        )
+    );
+  }
+  error(error){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: new Text("Checking Credentials"),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(error),
+          ),
+        )
+    );
+  }
+
 
   Widget _submitButton() {
     return FlatButton(
       onPressed: () {
         print(type);
+        loading();
         _signInWithEmailAndPassword();
 
         // Navigator.push(

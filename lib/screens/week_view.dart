@@ -88,6 +88,18 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
 
   }
 
+  loading(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: new Text("Checking Credentials"),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CupertinoActivityIndicator(),
+          ),
+        )
+    );
+  }
   generateDates(){
     final items = List<DateTime>.generate(60, (i) =>
         DateTime(
@@ -114,15 +126,15 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
     fetchData();
   }
   fetchData()async{
-    print('inside');
+    print(Data.selectedDept);
     ref = FirebaseDatabase.instance.reference();
-    await ref.once().then((value) {
+    await ref.child('dept').child(Data.selectedDept).child('sem${Data.selectedSem}').once().then((value) {
       Map val= value.value;
       //print(val['dept'][Data.selectedDept]);
       Map swaps={};
       setState(() {
-        coursesInDay = val['dept'][Data.selectedDept]['sem${Data.selectedSem}']['basicTimeTable'];
-        print(coursesInDay['Mon']['slot1']);
+        coursesInDay = val['basicTimeTable'];
+        //print(coursesInDay['Mon']['slot1']);
         //print(coursesInDay);
       });
       if(val.containsKey('changes'))
@@ -165,7 +177,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
         });
       }
       Map emptySlots={};
-      if(val['changes'].containsKey('empty')) emptySlots=val['changes']['empty'];
+        if (val.containsKey('changes'))  if(val['changes'].containsKey('empty')) emptySlots=val['changes']['empty'];
       //print(value.value);
       if (emptySlots.isNotEmpty) {
         print(emptySlots);
@@ -185,6 +197,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
         });
       }
       Map takeSlots={};
+      if (val.containsKey('changes'))
       if(val['changes'].containsKey('take')) takeSlots=val['changes']['take'];
       if (takeSlots.isNotEmpty) {
         //print(takeSlots);
@@ -257,7 +270,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
          });
        },
       onLongPress: (){
-        !isSwapSelected && slotData['empNo']==Data.empNo ? showDialog(
+        !isSwapSelected && slotData['empNo']==Data.empNo  ? showDialog(
             context: context,
             builder: (BuildContext context) => CupertinoAlertDialog(
               title: new Text("Select an Action"),
@@ -297,6 +310,31 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
                     },
                       child: Text("Empty")),
                 ),
+                slotData['type'] =='FREE' ? CupertinoDialogAction(
+                  child: CupertinoButton(
+                      onPressed: (){
+                        setState(() {
+                          selectTakeSlot = {
+                            'slotNum' :slotNumber,
+                            'day' : formattedDate[index]
+                          };
+                        });
+                        selectTakeSlot.addAll(myLec);
+                        print(selectTakeSlot);
+
+                        Navigator.pop(context);
+                        confirmTakeAlert();
+
+                      },
+                      child: Text("Take Slot")),
+                ):SizedBox()
+              ],
+            )
+        ):slotData['type'] =='FREE'  ? showDialog(
+            context: context,
+            builder: (BuildContext context) => CupertinoAlertDialog(
+              title: new Text("Select an Action"),
+              actions: <Widget>[
                 slotData['type'] =='FREE' ? CupertinoDialogAction(
                   child: CupertinoButton(
                       onPressed: (){
@@ -473,13 +511,15 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
             CupertinoDialogAction(
               child: CupertinoButton(
                   onPressed: (){
-                        ref.child('dept').child('sem${Data.selectedSem}').child(Data.selectedDept).child('changes').child('swaps').push().set(selectedSlots);
-                        fetchData();
-                        setState(() {
-                          isSwapSelected = false;
-                          selectedSlots.clear();
-                        });
-                        Navigator.pop(context);
+                    print(Data.selectedSem);
+                    ref.child('userdata').child('lecturers').child(selectedSlots['selectEmpNo']).child('requests').child('swaps').push().set(selectedSlots);
+                    //ref.child('dept').child(Data.selectedDept).child('sem${Data.selectedSem}').child('changes').child('swaps').push().set(selectedSlots);
+                    fetchData();
+                    setState(() {
+                      isSwapSelected = false;
+                      selectedSlots.clear();
+                    });
+                    Navigator.pop(context);
 
                         },
                   child: Text("Yes")),
@@ -602,7 +642,8 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
             CupertinoDialogAction(
               child: CupertinoButton(
                   onPressed: (){
-                    ref.child('changes').child('empty').push().set(selectedEmptySlot);
+                    loading();
+                    ref.child('dept').child(Data.selectedDept).child('sem${Data.selectedSem}').child('changes').child('empty').push().set(selectedEmptySlot);
                     fetchData();
                     Navigator.pop(context);
                   },
@@ -726,7 +767,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
             CupertinoDialogAction(
               child: CupertinoButton(
                   onPressed: (){
-                    ref.child('changes').child('take').push().set(selectTakeSlot);
+                    ref.child('dept').child(Data.selectedDept).child('sem${Data.selectedSem}').child('changes').child('take').push().set(selectTakeSlot);
                     fetchData();
                     Navigator.pop(context);
                   },

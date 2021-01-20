@@ -136,7 +136,7 @@ class _DashboardState extends State<Dashboard> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blueAccent,
+          backgroundColor:Color(0xfffbb448),
           title: Text('Dashboard'),),
         body: SingleChildScrollView(
           child: Container(

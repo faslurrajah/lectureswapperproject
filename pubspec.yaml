@@ -33,6 +33,7 @@ dependencies:
   selectable_container: ^0.1.4
   firebase_auth: ^0.18.4+1
   firebase_core: ^0.5.3
+  shared_preferences: ^0.5.12+4
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +57,7 @@ flutter:
   - images/lecturer.png
   - images/dashboard.png
   - images/bottom.png
+  - assets/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

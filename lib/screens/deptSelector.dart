@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lectureswapperproject/data/Data.dart';
+import 'package:lectureswapperproject/main.dart';
 import 'package:lectureswapperproject/screens/dashboard.dart';
+import 'package:lectureswapperproject/screens/splash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class DeptSelector extends StatefulWidget {
@@ -14,7 +17,37 @@ class _DeptSelectorState extends State<DeptSelector> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text('Departments'),),
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Departments'),
+              PopupMenuButton<int>(
+                onSelected: (val){
+                  print(val);
+                  if(val==1) {
+                    SharedPreferences.getInstance().then((value) {
+                      value.clear();
+                      Navigator.pushReplacement(
+                          context, MaterialPageRoute(builder: (context) => Splash()));
+
+                    });
+                  }
+                },
+                icon: Icon(Icons.more_vert),
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 1,
+                    child: Text("Logout"),
+
+                  ),
+                ],
+              ),
+            ],
+          ),
+          backgroundColor: Color(0xfffbb448),
+          automaticallyImplyLeading: false,
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -73,16 +106,16 @@ class _DeptSelectorState extends State<DeptSelector> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  deptContainer('Computer','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTyf-BJmGPUtDh7K2qhYyUW0M3Y9cKXRlyjxg&usqp=CAU'),
-                  deptContainer('EEE','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTyf-BJmGPUtDh7K2qhYyUW0M3Y9cKXRlyjxg&usqp=CAU')
+                  deptContainer('Computer','assets/comp.png'),
+                  deptContainer('EEE','assets/eee.png')
                 ],
               ),
               SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  deptContainer('Civil','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTyf-BJmGPUtDh7K2qhYyUW0M3Y9cKXRlyjxg&usqp=CAU'),
-                  deptContainer('Mechanical','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTyf-BJmGPUtDh7K2qhYyUW0M3Y9cKXRlyjxg&usqp=CAU')
+                  deptContainer('Civil','assets/civil.png'),
+                  deptContainer('Mechanical','assets/mech.png')
                 ],
               ),
               SizedBox(height: 30,),
@@ -95,6 +128,7 @@ class _DeptSelectorState extends State<DeptSelector> {
   Widget deptContainer(deptName,url){
     var dep='';
     return Expanded(
+      flex: 1,
       child: FlatButton(
         onPressed: (){
           setState(() {
@@ -107,15 +141,16 @@ class _DeptSelectorState extends State<DeptSelector> {
               context, MaterialPageRoute(builder: (context) => Dashboard()));
         },
         child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10)
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
                 child: Column(
                   children: [
                     Image(
-                      height: 150,
-                      width: 150,
-                      image: NetworkImage(url),),
+                      image: AssetImage(url),),
                     Text(deptName),
                   ],
                 )
