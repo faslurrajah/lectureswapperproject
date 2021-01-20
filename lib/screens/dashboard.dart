@@ -1,25 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lectureswapperproject/swapReqView.dart';
 import 'package:lectureswapperproject/table_views/light_color.dart';
-import 'package:lectureswapperproject/table_views/week_view.dart';
+import 'package:lectureswapperproject/screens/week_view.dart';
 
-import 'login.dart';
+
 import 'signup.dart';
+import 'swapReqView.dart';
 
 
 
 class Dashboard extends StatefulWidget {
-  Map data;
-  Dashboard(this.data);
+
   @override
-  _DashboardState createState() => _DashboardState(data);
+  _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  Map data;
-  _DashboardState(this.data);
   Widget _requests() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -57,7 +54,7 @@ class _DashboardState extends State<Dashboard> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => WeekView(data)));   //Signup page replaced
+              context, MaterialPageRoute(builder: (context) => WeekView()));   //Signup page replaced
         },
         child: Container(
           width: MediaQuery.of(context).size.width,

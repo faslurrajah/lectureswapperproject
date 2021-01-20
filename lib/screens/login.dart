@@ -3,8 +3,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lectureswapperproject/dashboard.dart';
-import 'bezierContainer.dart';
+import 'package:lectureswapperproject/data/Data.dart';
+import 'package:lectureswapperproject/screens/dashboard.dart';
+import 'package:lectureswapperproject/screens/deptSelector.dart';
+
+import '../widgets/bezierContainer.dart';
+
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -21,42 +25,11 @@ class _LoginPageState extends State<LoginPage> {
   User user ;
   DatabaseReference ref= FirebaseDatabase.instance.reference();
   Map userList={};
-//  invoiceNumber = '2323',
-  var customerName ='',customerAddress= '',invoiceNum = '',paymentInfo='',quotationHeading='';
-  var dateSet= '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}';
-
-  var itemName,semesterSel,department,quantity,price,itemDes='',poNo='',vendorNo= '1008879',payeeName='',discount=0.0,advancedPay=0.0,payment='',services='',validity='',warranty='';
-  bool vendorBool=true;
-  var itemNameOther, quantityOther,priceOther ;
-  var totalPrice=0.0;
   var type = 'student';
   int _radioValue = 0;
-  bool page=true;
-  bool validityBool = false;
-  bool paymentBool = false;
-  bool serviceBool = false;
-  bool warrantyBool = false;
 
-  Widget _backButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
-            ),
-            Text('Back',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
-          ],
-        ),
-      ),
-    );
-  }
+
+
 
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
@@ -67,8 +40,7 @@ class _LoginPageState extends State<LoginPage> {
        user = (await _auth.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
-      ))
-          .user;
+      )).user;
 
        print("${user.email} signed in");
        print(user);
@@ -82,8 +54,13 @@ class _LoginPageState extends State<LoginPage> {
              if(userInfo.containsValue(user.email)) {
                isUserDataFound = true;
                print('user Found');
+               Data.email = emailController.text;
+               Data.name = userInfo['name'];
+               Data.dept = userInfo['dept'];
+               Data.empNo = userInfo['empNo'];
+               Data.isLogged = true;
                Navigator.push(
-                   context, MaterialPageRoute(builder: (context) => Dashboard({'empNo': userInfo['empNo']})));
+                   context, MaterialPageRoute(builder: (context) => DeptSelector()));
              }
              else {
                print('user data not found');
@@ -171,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
         _signInWithEmailAndPassword();
 
         // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => Dashboard()));
+        //     context, MaterialPageRoute(builder: (context) => DeptSelector()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -309,99 +286,6 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
 
-                    //Selecting semester
-                    //Should appear only for students
-                    // type == 'Student' ? Row(
-                    //   mainAxisAlignment:  MainAxisAlignment.spaceAround,
-                    //   children: [
-                    //     Text('Semester',style: TextStyle(fontSize: 20),),
-                    //     DropdownButton(
-                    //       value: semesterSel,
-                    //       hint: Text('Select your semester'),
-                    //       items: [
-                    //         DropdownMenuItem(
-                    //           child: Text("1st sem"),
-                    //           value: '1',
-                    //
-                    //         ),
-                    //         DropdownMenuItem(
-                    //           child: Text("2nd sem"),
-                    //           value: '2',
-                    //         ),
-                    //         DropdownMenuItem(
-                    //             child: Text("3rd sem"),
-                    //             value: '3'
-                    //         ),
-                    //         DropdownMenuItem(
-                    //             child: Text("4th sem"),
-                    //             value: '4'
-                    //         ),
-                    //         DropdownMenuItem(
-                    //             child: Text("5th sem"),
-                    //             value: '5'
-                    //         ),
-                    //         DropdownMenuItem(
-                    //             child: Text("6th sem"),
-                    //             value: '6'
-                    //         ),
-                    //         DropdownMenuItem(
-                    //             child: Text("7th sem"),
-                    //             value: '7'
-                    //         ),
-                    //         DropdownMenuItem(
-                    //             child: Text("8th sem"),
-                    //             value: '8'
-                    //         )
-                    //       ],
-                    //
-                    //       onChanged: (value){
-                    //         //TODO: Action for onchange semester
-                    //         setState(() {
-                    //           semesterSel=value;
-                    //         });
-                    //       },
-                    //     ),
-                    //   ],
-                    //
-                    // ) : SizedBox(height: 0,),
-                    //Selecting Department
-
-                    // Row(
-                    //   mainAxisAlignment:  MainAxisAlignment.spaceAround,
-                    //   children: [
-                    //     Text('Department',style: TextStyle(fontSize: 20),),
-                    //     DropdownButton(
-                    //       value: department,
-                    //       hint: Text('Select department'),
-                    //       items: [
-                    //         DropdownMenuItem(
-                    //           child: Text("Civil Engineering"),
-                    //           value: 'civil',
-                    //         ),
-                    //         DropdownMenuItem(
-                    //           child: Text("Mechanical Engineering"),
-                    //           value: 'mechanical',
-                    //         ),
-                    //         DropdownMenuItem(
-                    //             child: Text("Electrical Engineering"),
-                    //             value: 'elec'
-                    //         ),
-                    //         DropdownMenuItem(
-                    //             child: Text("Computer Engineering"),
-                    //             value: 'comp'
-                    //         ),
-                    //       ],
-                    //
-                    //       onChanged: (value){
-                    //         //TODO: Action for onchange department selection
-                    //         setState(() {
-                    //           department = value;
-                    //         });
-                    //       },
-                    //     ),
-                    //   ],
-                    //
-                    // ),
 
                     _emailPasswordWidget(),
                     SizedBox(height: height * .1),

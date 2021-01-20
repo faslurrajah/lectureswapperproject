@@ -2,25 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:lectureswapperproject/data/Data.dart';
 
-import 'CustomTabView.dart';
+import '../table_views/CustomTabView.dart';
 import 'package:intl/intl.dart';
 
-import 'const.dart';
-import 'customDesign.dart';
-import 'light_color.dart';
+import '../table_views/const.dart';
+import '../table_views/customDesign.dart';
+import '../table_views/light_color.dart';
 
 class WeekView extends StatefulWidget {
-  Map data;
-  WeekView(this.data);
+
 
   @override
-  _WeekViewState createState() => _WeekViewState(data);
+  _WeekViewState createState() => _WeekViewState();
 }
 
 class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin{
-  Map data;
-  _WeekViewState(this.data);
+
   Map tempDaySub= {
     "slot1" : {
       "id" : "EC6060",
@@ -61,6 +60,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
   Map coursesInDay = Map();
   bool isSwapSelected=false;
   Map selectedSlots = {}, selectedEmptySlot={},selectTakeSlot={};
+  bool finished=false;
 
   TabController _tabController;
   List formattedDate =[];
@@ -113,19 +113,20 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
     }
     fetchData();
   }
-  fetchData(){
+  fetchData()async{
+    print('inside');
     ref = FirebaseDatabase.instance.reference();
-    ref.once().then((value) {
+    await ref.once().then((value) {
       Map val= value.value;
+      //print(val['dept'][Data.selectedDept]);
       Map swaps={};
-
-      if(val.containsKey('changes'))
-        if(val['changes'].containsKey('swaps')) swaps=val['changes']['swaps'];
       setState(() {
-        coursesInDay = val['dept']['compElec']['sem6']['basicTimeTable'];
+        coursesInDay = val['dept'][Data.selectedDept]['sem${Data.selectedSem}']['basicTimeTable'];
         print(coursesInDay['Mon']['slot1']);
         //print(coursesInDay);
       });
+      if(val.containsKey('changes'))
+        if(val['changes'].containsKey('swaps')) swaps=val['changes']['swaps'];
         if (swaps.isNotEmpty) {
         swaps.forEach((key, value) {
           //print(value);
@@ -143,6 +144,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
                 'name':va['selectName'],
                 'nameL': va['selectNameL'],
                 'type' : 'S',
+                'empNo' : val['selectEmpNo']
 
               };
               //print(coursesInDay[dayOwn][va['ownSlotNum']]);
@@ -153,6 +155,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
                 'name':va['ownName'],
                 'nameL': va['ownNameL'],
                 'type' : 'S',
+                'empNo' : val['ownEmpNo']
 
               };
               //print(coursesInDay[daySelected][va['selectSlotNum']]);
@@ -195,6 +198,9 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
           });
         });
       }
+      setState(() {
+        finished = true;
+      });
     });
   }
   Widget daySlot(int index){
@@ -232,7 +238,9 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
   }
   Widget slot(Map slotData,int index,String slotNumber){
     return  FlatButton(
-       onPressed: !isSwapSelected  ? (){
+       onPressed: !isSwapSelected ? (){
+         //print(slotNumber);
+         print(slotData);
         if(slotData['type']!='FREE') showSlotAlert(slotData);
 
       }:(){
@@ -243,12 +251,13 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
            selectedSlots['selectName'] = slotData['name'];
            selectedSlots['selectNameL'] = slotData['nameL'];
            selectedSlots['selectType'] = slotData['type'];
+           selectedSlots['selectEmpNo'] = slotData['empNo'];
 
            print(selectedSlots);
          });
        },
       onLongPress: (){
-        !isSwapSelected ? showDialog(
+        !isSwapSelected && slotData['empNo']==Data.empNo ? showDialog(
             context: context,
             builder: (BuildContext context) => CupertinoAlertDialog(
               title: new Text("Select an Action"),
@@ -265,9 +274,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
                           selectedSlots['ownNameL'] = slotData['nameL'];
                           selectedSlots['ownType'] = slotData['type'];
                           selectedSlots['status'] = "pending";
-
-
-
+                          selectedSlots['ownEmpNo'] = slotData['empNo'];
                           print(selectedSlots);
                           isSwapSelected = true;
                         });
@@ -314,7 +321,9 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
       },
       child: Container(
         decoration: BoxDecoration(
-            color: !isSwapSelected && selectedSlots.isEmpty ?selectColor(slotNumber, slotData): selectedSlots['ownSlotNum']==slotNumber && selectedSlots['ownDay']==formattedDate[index] ? Colors.green: selectedSlots['selectSlotNum']==slotNumber && selectedSlots['selectDay']==formattedDate[index] ? Color.fromRGBO(218,165,32,1):Colors.blueGrey,
+            color: !isSwapSelected && selectedSlots.isEmpty ?selectColor(slotNumber, slotData)
+                : selectedSlots['ownSlotNum']==slotNumber && selectedSlots['ownDay']==formattedDate[index] ? Colors.green
+                : selectedSlots['selectSlotNum']==slotNumber && selectedSlots['selectDay']==formattedDate[index] ? Color.fromRGBO(218,165,32,1):Colors.blueGrey,
             border: Border.all(
               width: 0.5, //                   <--- border width here
             ),
@@ -339,24 +348,6 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
     };
     //print(slotData);
     return colors[slotData['type']];
-  }
-  Widget slot1(Map slotData){
-    return FlatButton(
-      onPressed: (){},
-      child: Container(
-
-        decoration: BoxDecoration(
-            color: Colors.blueGrey,
-            border: Border.all(
-              width: 1, //                   <--- border width here
-            )),
-        height: 80,
-        width: 150,
-        child: Center(
-          child: Text(slotData['id']),
-        ),
-      ),
-    );
   }
   Widget timeSlot(time){
     return Container(
@@ -482,7 +473,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
             CupertinoDialogAction(
               child: CupertinoButton(
                   onPressed: (){
-                        ref.child('changes').child('swaps').push().set(selectedSlots);
+                        ref.child('dept').child('sem${Data.selectedSem}').child(Data.selectedDept).child('changes').child('swaps').push().set(selectedSlots);
                         fetchData();
                         setState(() {
                           isSwapSelected = false;
@@ -1021,7 +1012,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
             ),
 
           ),
-          body: Row(
+          body: finished ? Row(
             children: [
               Expanded(
                 child: CustomTabView(
@@ -1037,7 +1028,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
                 ),
               ),
             ],
-          ),
+          ):Center(child: CupertinoActivityIndicator()),
         ),
       );
   }

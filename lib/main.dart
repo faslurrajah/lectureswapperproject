@@ -2,11 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lectureswapperproject/login.dart';
-import 'swapReqView.dart';
 
 
-import 'signup.dart';
+
+import 'screens/login.dart';
+import 'screens/signup.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
