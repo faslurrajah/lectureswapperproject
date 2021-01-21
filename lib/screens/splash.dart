@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lectureswapperproject/data/Data.dart';
+import 'package:lectureswapperproject/screens/week_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -16,8 +18,16 @@ class _SplashState extends State<Splash> {
     Future.delayed(Duration(seconds: 3)).then((value) {
       SharedPreferences.getInstance().then((value) {
 
-        if(value.containsKey('logged')) Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => DeptSelector()));
+        if(value.containsKey('logged')) {
+          if(Data.type == 'Staff')  Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => DeptSelector()));
+          else if(Data.type == 'Student') {
+            Data.selectedDept = Data.dept;
+            Data.selectedSem = Data.sem;
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => WeekView()));
+          }
+        }
         else Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => WelcomePage()));
       });

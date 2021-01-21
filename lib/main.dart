@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lectureswapperproject/data/Data.dart';
 import 'package:lectureswapperproject/screens/splash.dart';
 
 
@@ -12,6 +13,7 @@ import 'screens/signup.dart';
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  Data ref = new Data();
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: Splash(),));
@@ -171,7 +173,7 @@ class _WelcomePageState extends State<WelcomePage> {
             //mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Image(
-                image: NetworkImage('https://tlgur.com/d/g05exDE4'),
+                image: AssetImage('assets/home.jpg'),
                 //height: 500,
                 //width: 600,
               ),

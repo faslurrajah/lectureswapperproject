@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lectureswapperproject/data/Data.dart';
 import 'package:lectureswapperproject/main.dart';
 import 'package:lectureswapperproject/screens/dashboard.dart';
@@ -12,7 +13,13 @@ class DeptSelector extends StatefulWidget {
 }
 
 class _DeptSelectorState extends State<DeptSelector> {
-  var semester;
+  var semester='6';
+
+  @override
+  void initState() {
+    Data.selectedSem=semester;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,54 +60,63 @@ class _DeptSelectorState extends State<DeptSelector> {
             mainAxisAlignment: MainAxisAlignment.center,
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              DropdownButton(
-                value: semester,
-                hint: Text('Select a semester',style: TextStyle(fontSize: 20),),
-                items: [
-                  DropdownMenuItem(
-                    child: Text("1st sem",style: TextStyle(fontSize: 20),),
-                    value: '1',
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(Data.name,style: GoogleFonts.yeonSung(fontSize: 20,fontWeight: FontWeight.bold),),
+                  SizedBox(height: 10,),
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                      value: semester,
+                      hint: Text('Select a semester',style: GoogleFonts.sairaExtraCondensed(fontSize: 20),),
+                      items: [
+                        DropdownMenuItem(
+                          child: Text("1st sem",style: TextStyle(fontSize: 20),),
+                          value: '1',
 
+                        ),
+                        DropdownMenuItem(
+                          child: Text("2nd sem",style: TextStyle(fontSize: 20),),
+                          value: '2',
+                        ),
+                        DropdownMenuItem(
+                            child: Text("3rd sem",style: TextStyle(fontSize: 20),),
+                            value: '3'
+                        ),
+                        DropdownMenuItem(
+                            child: Text("4th sem",style: TextStyle(fontSize: 20),),
+                            value: '4'
+                        ),
+                        DropdownMenuItem(
+                            child: Text("5th sem",style: TextStyle(fontSize: 20),),
+                            value: '5'
+                        ),
+                        DropdownMenuItem(
+                            child: Text("6th sem",style: TextStyle(fontSize: 20),),
+                            value: '6'
+                        ),
+                        DropdownMenuItem(
+                            child: Text("7th sem",style: TextStyle(fontSize: 20),),
+                            value: '7'
+                        ),
+                        DropdownMenuItem(
+                            child: Text("8th sem",style: TextStyle(fontSize: 20),),
+                            value: '8'
+                        )
+                      ],
+
+                      onChanged: (value){
+                        //TODO: Action for onchange semester
+                        setState(() {
+                          semester=value;
+                          Data.selectedSem=semester;
+                          print(Data.selectedSem);
+                        });
+                      },
+
+                    ),
                   ),
-                  DropdownMenuItem(
-                    child: Text("2nd sem",style: TextStyle(fontSize: 20),),
-                    value: '2',
-                  ),
-                  DropdownMenuItem(
-                      child: Text("3rd sem",style: TextStyle(fontSize: 20),),
-                      value: '3'
-                  ),
-                  DropdownMenuItem(
-                      child: Text("4th sem",style: TextStyle(fontSize: 20),),
-                      value: '4'
-                  ),
-                  DropdownMenuItem(
-                      child: Text("5th sem",style: TextStyle(fontSize: 20),),
-                      value: '5'
-                  ),
-                  DropdownMenuItem(
-                      child: Text("6th sem",style: TextStyle(fontSize: 20),),
-                      value: '6'
-                  ),
-                  DropdownMenuItem(
-                      child: Text("7th sem",style: TextStyle(fontSize: 20),),
-                      value: '7'
-                  ),
-                  DropdownMenuItem(
-                      child: Text("8th sem",style: TextStyle(fontSize: 20),),
-                      value: '8'
-                  )
                 ],
-
-                onChanged: (value){
-                  //TODO: Action for onchange semester
-                  setState(() {
-                    semester=value;
-                    Data.selectedSem=semester;
-                    print(Data.selectedSem);
-                  });
-                },
-
               ),
               SizedBox(height: 60,),
               Row(

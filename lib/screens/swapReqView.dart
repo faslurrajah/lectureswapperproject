@@ -211,11 +211,10 @@ class _SwapReqViewState extends State<SwapReqView> {
     return SafeArea(child: Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Color(0xffbb448),
+          backgroundColor: Color(0xfffbb448),
           title: Container(
             child: Text(
               'Swaps',
-              style: TextStyle(fontSize: 25, color: Colors.black),
             ),
           )),
       body: Padding(

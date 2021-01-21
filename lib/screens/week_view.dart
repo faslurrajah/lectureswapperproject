@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:lectureswapperproject/data/Data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../table_views/CustomTabView.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,7 @@ import 'package:intl/intl.dart';
 import '../table_views/const.dart';
 import '../table_views/customDesign.dart';
 import '../table_views/light_color.dart';
+import 'splash.dart';
 
 class WeekView extends StatefulWidget {
 
@@ -512,6 +514,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
               child: CupertinoButton(
                   onPressed: (){
                     print(Data.selectedSem);
+                    selectedSlots['date'] = DateTime.now().toString();
                     ref.child('userdata').child('lecturers').child(selectedSlots['selectEmpNo']).child('requests').child('swaps').push().set(selectedSlots);
                     //ref.child('dept').child(Data.selectedDept).child('sem${Data.selectedSem}').child('changes').child('swaps').push().set(selectedSlots);
                     fetchData();
@@ -643,6 +646,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
               child: CupertinoButton(
                   onPressed: (){
                     loading();
+                    selectedEmptySlot['date'] = DateTime.now().toString();
                     ref.child('dept').child(Data.selectedDept).child('sem${Data.selectedSem}').child('changes').child('empty').push().set(selectedEmptySlot);
                     fetchData();
                     Navigator.pop(context);
@@ -767,6 +771,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
             CupertinoDialogAction(
               child: CupertinoButton(
                   onPressed: (){
+                    selectTakeSlot['date'] = DateTime.now().toString();
                     ref.child('dept').child(Data.selectedDept).child('sem${Data.selectedSem}').child('changes').child('take').push().set(selectTakeSlot);
                     fetchData();
                     Navigator.pop(context);
@@ -1011,7 +1016,33 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Time Table',style: TextStyle(fontSize: 20,color: Colors.black),),
+                Text('Time Table'),
+                Data.type == 'Student' ?PopupMenuButton<int>(
+                  onSelected: (val){
+                    print(val);
+                    if(val==1) {
+                      SharedPreferences.getInstance().then((value) {
+                        value.clear();
+                        Navigator.pushReplacement(
+                            context, MaterialPageRoute(builder: (context) => Splash()));
+
+                      });
+                    }
+                  },
+                  icon: Icon(Icons.more_vert),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 1,
+                      child: Text("Logout"),
+
+                    ),
+                    PopupMenuItem(
+                      value: 2,
+                      child: Text("Edit Profile"),
+
+                    ),
+                  ],
+                ):
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,

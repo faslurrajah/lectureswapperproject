@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lectureswapperproject/data/Data.dart';
+import 'package:lectureswapperproject/screens/week_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/bezierContainer.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -16,41 +21,18 @@ class _SignUpPageState extends State<SignUpPage> {
 
 
 //  invoiceNumber = '2323',
- var customerName ='',customerAddress= '',invoiceNum = '',paymentInfo='',quotationHeading='';
- var dateSet= '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}';
-  
-  var itemName,semesterSel,department,quantity,price,itemDes='',poNo='',vendorNo= '1008879',payeeName='',discount=0.0,advancedPay=0.0,payment='',services='',validity='',warranty='';
-  bool vendorBool=true;
-  var itemNameOther, quantityOther,priceOther ;
-  var totalPrice=0.0;
- var type = 'Invoice';
- int _radioValue = 0;
- bool page=true;
-  bool validityBool = false;
-  bool paymentBool = false;
-  bool serviceBool = false;
-  bool warrantyBool = false;
 
-  Widget _backButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
-            ),
-            Text('Back',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
-          ],
-        ),
-      ),
-    );
-  }
+ var dateSet= '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}';
+
+  var semesterSel='6',department='ce';
+  FirebaseAuth auth = FirebaseAuth.instance;
+  DatabaseReference ref = FirebaseDatabase.instance.reference();
+
+
+ String type = 'Invoice',email='',pass='',passC='',name='';
+ int _radioValue = 0;
+
+
 
   var cNameController = TextEditingController();
   var cAddressController = TextEditingController();
@@ -73,8 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
             controller: cNameController,
             onChanged: (val){
               setState(() {
-//                customerName = val.trim();
-              //TODO: Email ID
+                email = val.trim();
               });
             },
               decoration: InputDecoration(
@@ -85,6 +66,35 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+
+ Widget userName(String title) {
+   return Container(
+     margin: EdgeInsets.symmetric(vertical: 10),
+     child: Column(
+       crossAxisAlignment: CrossAxisAlignment.start,
+       children: <Widget>[
+         Text(
+           title,
+           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+         ),
+         SizedBox(
+           height: 10,
+         ),
+         TextField(
+             //controller: cNameController,
+             onChanged: (val){
+               setState(() {
+                 name = val.trim();
+               });
+             },
+             decoration: InputDecoration(
+                 border: InputBorder.none,
+                 fillColor: Color(0xfff3f3f4),
+                 filled: true))
+       ],
+     ),
+   );
+ }
 
   //Field for user password
   Widget userPass(String title) {
@@ -101,12 +111,12 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 10,
           ),
           TextField(
+            obscureText: true,
             maxLines: 1,
             controller: cAddressController,
               onChanged: (val){
                 setState(() {
-//                  customerAddress = val.trim();
-                //TODO: inserting password
+                  pass = val.trim();
                 });
               },
               decoration: InputDecoration(
@@ -133,10 +143,10 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 10,
           ),
           TextField(
+            obscureText: true,
               onChanged: (val){
                 setState(() {
-//                  invoiceNum = val.trim();
-                //TODO: confirming password with previous
+                  passC = val.trim();
                 });
               },
               decoration: InputDecoration(
@@ -151,7 +161,55 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _submitButton() {
     return FlatButton(
-      onPressed: () {},
+      onPressed: () {
+        if(email.isNotEmpty && pass.isNotEmpty && passC.isNotEmpty) {
+          if(pass==passC) {
+            loading();
+            auth.createUserWithEmailAndPassword(email: email, password: pass).then((value) {
+              print(value.user.emailVerified);
+              ref.child('userdata').child('students').child(email.split('@')[0]).set(
+                {
+                  'name' : name,
+                  'index' : email.split('@')[0],
+                  'email' : email,
+                  'dept' : department,
+                  'sem' : semesterSel,
+                  'pass' : pass
+                 }
+              );
+              Data.email = email;
+              Data.name = name;
+              Data.dept = department;
+              Data.index =  email.split('@')[0];
+              Data.sem = semesterSel;
+              Data.type = 'Student';
+              //Data.empNo = userInfo['empNo'];
+              Data.isLogged = true;
+
+              SharedPreferences.getInstance().then((value) {
+                value.setBool('logged', true);
+                value.setString('email', email);
+                value.setString('name', name);
+                value.setString('dept', department);
+                value.setString('index',  email.split('@')[0],);
+                value.setString('sem', semesterSel);
+                value.setString('type', 'Student');
+                //value.setString('empNo', userInfo['empNo']);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Data.selectedDept = Data.dept;
+                Data.selectedSem = Data.sem;
+                Navigator.push(
+                    context, MaterialPageRoute(
+                    builder: (context) => WeekView()));
+              });
+            });
+          }
+          else ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Passwords mismatched')));
+        }
+        else ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('All fields are required')));
+      },
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(vertical: 15),
@@ -210,7 +268,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        userMail("Email ID"),
+        userName('Name with initial'),
+        userMail("Campus Email"),
         userPass("Password"),
         passConfirm("Confirm Password"),
       ],
@@ -234,7 +293,30 @@ class _SignUpPageState extends State<SignUpPage> {
       }
       });
   }
-
+ loading(){
+   showDialog(
+       context: context,
+       builder: (BuildContext context) => CupertinoAlertDialog(
+         title: new Text("Checking Credentials"),
+         content: Padding(
+           padding: const EdgeInsets.all(8.0),
+           child: CupertinoActivityIndicator(),
+         ),
+       )
+   );
+ }
+ error(error){
+   showDialog(
+       context: context,
+       builder: (BuildContext context) => CupertinoAlertDialog(
+         title: new Text("Checking Credentials"),
+         content: Padding(
+           padding: const EdgeInsets.all(8.0),
+           child: Text(error),
+         ),
+       )
+   );
+ }
   @override
   Widget build(BuildContext context) {
 
@@ -262,42 +344,16 @@ class _SignUpPageState extends State<SignUpPage> {
 
                     //Staff or student selection.
                     //Should be automated in future
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Radio(
-                          value: 0,
-                          groupValue: _radioValue,
-                          onChanged: _handleRadioValueChange,
-                        ),
-                        new Text(
-                          'Staff',
-                          style: new TextStyle(fontSize: 16.0),
-                        ),
-                        new Radio(
-                          value: 1,
-                          groupValue: _radioValue,
-                          onChanged: _handleRadioValueChange,
-                        ),
-                        new Text(
-                          'Student',
-                          style: new TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-
-                      ],
-                    ),
 
                     //Selecting semester
                     //Should appear only for students
-                     type == 'Student' ? Row(
-                      mainAxisAlignment:  MainAxisAlignment.spaceAround,
+                    Row(
+                      mainAxisAlignment:  MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Semester',style: TextStyle(fontSize: 20),),
+                        Text('Semester',style: GoogleFonts.sairaExtraCondensed(fontSize: 20),),
                         DropdownButton(
                           value: semesterSel,
-                          hint: Text('Select your semester'),
+                          hint: Text('Select your semester',style: GoogleFonts.sairaExtraCondensed(fontSize: 20),),
                           items: [
                             DropdownMenuItem(
                               child: Text("1st sem"),
@@ -344,33 +400,33 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ],
 
-                    ) : SizedBox(height: 0,),
+                    ) ,
 
                     //Selecting Department
 
                     Row(
-                      mainAxisAlignment:  MainAxisAlignment.spaceAround,
+                      mainAxisAlignment:  MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Department',style: TextStyle(fontSize: 20),),
+                        Text('Department',style: GoogleFonts.sairaExtraCondensed(fontSize: 20),),
                         DropdownButton(
                           value: department,
-                          hint: Text('Select department'),
+                          hint: Text('Select department',style: GoogleFonts.sairaExtraCondensed(fontSize: 20),),
                           items: [
                             DropdownMenuItem(
                               child: Text("Civil Engineering"),
-                              value: 'civil',
+                              value: 'cve',
                             ),
                             DropdownMenuItem(
                               child: Text("Mechanical Engineering"),
-                              value: 'mechanical',
+                              value: 'me',
                             ),
                             DropdownMenuItem(
                                 child: Text("Electrical Engineering"),
-                                value: 'elec'
+                                value: 'eee'
                             ),
                             DropdownMenuItem(
                                 child: Text("Computer Engineering"),
-                                value: 'comp'
+                                value: 'ce'
                             ),
                           ],
 
