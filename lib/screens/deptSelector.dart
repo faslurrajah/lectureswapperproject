@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lectureswapperproject/data/Data.dart';
@@ -5,6 +9,7 @@ import 'package:lectureswapperproject/main.dart';
 import 'package:lectureswapperproject/screens/dashboard.dart';
 import 'package:lectureswapperproject/screens/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 
 class DeptSelector extends StatefulWidget {
@@ -14,11 +19,53 @@ class DeptSelector extends StatefulWidget {
 
 class _DeptSelectorState extends State<DeptSelector> {
   var semester='6';
+  // Replace with server token from firebase console settings.
+  final String serverToken = 'AAAAbA8_L_E:APA91bE8-2r1czJYzpHSSKI0AzCzZ8MPWfZWXpEpejavuHsvDX0KCAJXWXeaRKq_TIxzm8R-rhyLPn0V2Mp4CpgOYlrWbG0aEmlD-p7oZ-qqyxxwv7_9unBQmYBTt9F9A8ZYcJUAWFOS';
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
     Data.selectedSem=semester;
     super.initState();
+  }
+  Future<Map<String, dynamic>> sendAndRetrieveMessage() async {
+    await firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true, provisional: false),
+    );
+
+    await http.post(
+      'https://fcm.googleapis.com/fcm/send',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': 'this is a body',
+            'title': 'this is a title'
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'id': '1',
+            'status': 'done'
+          },
+          'to': await firebaseMessaging.getToken(),
+        },
+      ),
+    );
+
+    final Completer<Map<String, dynamic>> completer =
+    Completer<Map<String, dynamic>>();
+
+    firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        completer.complete(message);
+      },
+    );
+
+    return completer.future;
   }
   @override
   Widget build(BuildContext context) {
@@ -63,7 +110,12 @@ class _DeptSelectorState extends State<DeptSelector> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(Data.name,style: GoogleFonts.yeonSung(fontSize: 20,fontWeight: FontWeight.bold),),
+                  FlatButton(
+                    onPressed: (){
+                      sendAndRetrieveMessage();
+
+                    },
+                      child: Text(Data.name,style: GoogleFonts.yeonSung(fontSize: 20,fontWeight: FontWeight.bold),)),
                   SizedBox(height: 10,),
                   DropdownButtonHideUnderline(
                     child: DropdownButton(

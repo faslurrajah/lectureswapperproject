@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lectureswapperproject/data/Data.dart';
@@ -13,8 +14,32 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String _message = '';
+
+  _registerOnFirebase() {
+    _firebaseMessaging.subscribeToTopic('all');
+    _firebaseMessaging.getToken().then((token) => print(token));
+  }
+  void getMessage() {
+    _firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          print('received message $message');
+          setState(() => _message = message["notification"]["body"]);
+        }, onResume: (Map<String, dynamic> message) async {
+      print('on resume $message');
+      setState(() => _message = message["notification"]["body"]);
+    }, onLaunch: (Map<String, dynamic> message) async {
+      print('on launch $message');
+      setState(() => _message = message["notification"]["body"]);
+    });
+  }
+
+
   @override
   void initState() {
+    _registerOnFirebase();
+    getMessage();
     Future.delayed(Duration(seconds: 3)).then((value) {
       SharedPreferences.getInstance().then((value) {
 

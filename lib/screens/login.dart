@@ -157,9 +157,6 @@ class _LoginPageState extends State<LoginPage> {
 
     } catch (e) {
       Navigator.of(context).pop();
-      FirebaseAuthException ex=e;
-      error(ex.message);
-      print("Failed to sign in with Email & Password ${ex.message}");
       print(e.runtimeType);
     }
   }

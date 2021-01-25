@@ -272,7 +272,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
          });
        },
       onLongPress: (){
-        !isSwapSelected && slotData['empNo']==Data.empNo  ? showDialog(
+        !isSwapSelected && slotData['empNo']==Data.empNo && Data.type=='Staff'  ? showDialog(
             context: context,
             builder: (BuildContext context) => CupertinoAlertDialog(
               title: new Text("Select an Action"),
@@ -312,7 +312,7 @@ class _WeekViewState extends State<WeekView> with SingleTickerProviderStateMixin
                     },
                       child: Text("Empty")),
                 ),
-                slotData['type'] =='FREE' ? CupertinoDialogAction(
+                slotData['type'] =='FREE' && Data.type=='Staff' ? CupertinoDialogAction(
                   child: CupertinoButton(
                       onPressed: (){
                         setState(() {
